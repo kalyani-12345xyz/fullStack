@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		input
+		{
+			width: 60%;
+			height: 20px;
+		}
+		button
+		{
+			background-color: lightblue;
+		}
+		body
+		{
+			background-color: cyan;
+		}
+	</style>
+</head>
+<body>
+	<center>
+		<h1>Expense Tracker</h1>
+	</center>
+	<h3>Item Name:</h3>
+	<input type="text" name="" placeholder="Enter Item name" id="itemName">
+	<br>
+	<h3>Item Amount:</h3>
+	<input type="text" name="" placeholder="Enter item amount" id="itemAmount">
+	<br><br>
+	<button onclick="addItem()">Add Item</button>
+	<button onclick="clearAll()">Clear All</button>
+	 <h2>Total Expenses: <span id="totalExpenses">00</span></h2>
+    
+    <h2>All Expenses:</h2>
+    <ul id="expensesList"></ul>
+
+	<script type="text/javascript">
+
+                   let expenses = [];
+        let totalExpenses = 0;
+        const totalExpensesElement = document.getElementById('totalExpenses');
+        const expensesListElement = document.getElementById('expensesList');
+        
+        function addItem() {
+            const itemNameInput = document.getElementById('itemName');
+            const itemAmountInput = document.getElementById('itemAmount');
+            const itemName = itemNameInput.value;
+            const itemAmount = parseInt(itemAmountInput.value);
+            
+            if (itemName === '') {
+                alert('Please enter a valid item name!');
+                return;
+            }
+            
+            expenses.push({ name: itemName, amount: itemAmount });
+            totalExpenses += itemAmount;
+            updateUI();
+            itemNameInput.value = '';
+            itemAmountInput.value = '';
+        }
+        
+        function clearAll() {
+            expenses = [];
+            totalExpenses = 0;
+            updateUI();
+        }
+        
+        function updateUI() {
+            totalExpensesElement.textContent = totalExpenses.toFixed(2);
+            
+            expensesListElement.innerHTML = '';
+            expenses.forEach((expense, index) => {
+                const li = document.createElement('li');
+                li.textContent = `Item: ${expense.name} - Amount: $${expense.amount.toFixed(2)}`;
+                expensesListElement.appendChild(li);
+            });
+        }
+
+    </script>
+</body>
+</html>
+	</script>
+
+</body>
+</html>
