@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo List</title>
+  <style type="text/css">
+    h3 {
+      width: 250px;
+      height: 50px;
+      padding: 10px;
+    }
+    input {
+      height: 50px;
+      width: 200px;
+    }
+    button {
+      width: 50px;
+      height: 55px;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="background: gray; width: 100%; padding: 20px;">
+    <center>
+      <h3 style="background: skyblue;">Todo list using JavaScript</h3>
+      <div>
+        <input type="text" id="text" placeholder="Enter text...">
+        <button onclick="Add()">Add</button>
+      </div><br>
+      <table style="width:100%" border="1">
+        <tbody id="body"></tbody>
+      </table>
+    </center>
+    <script type="text/javascript">
+      function Add() {
+        var oldstring = localStorage.getItem("dat");
+        var old = oldstring ? JSON.parse(oldstring) : [];
+
+        var d = document.getElementById('text').value;
+        var newdata = { "text": d };
+
+        old.push(newdata);
+        localStorage.setItem("dat", JSON.stringify(old));
+        show();
+        document.getElementById("text").value = "";
+      }
+
+      function show() {
+        var oldstring = localStorage.getItem("dat");
+        var old = oldstring ? JSON.parse(oldstring) : [];
+        var row = "";
+        old.map((data, index) => {
+          row += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${data.text}</td>
+            <td>
+              <button onclick="del(${index})">Delete</button>
+              <button onclick="update(${index})">Update</button>
+            </td>
+          </tr>`;
+        });
+        document.getElementById("body").innerHTML = row;
+      }
+
+      function del(index) {
+        var oldstring = localStorage.getItem("dat");
+        var old = oldstring ? JSON.parse(oldstring) : [];
+        old.splice(index, 1);
+        localStorage.setItem("dat", JSON.stringify(old));
+        show();
+      }
+
+      function update(index) {
+        var oldstring = localStorage.getItem("dat");
+        var old = oldstring ? JSON.parse(oldstring) : [];
+        var newText = prompt("Update the text:", old[index].text);
+        if (newText !== null) {
+          old[index].text = newText;
+          localStorage.setItem("dat", JSON.stringify(old));
+          show();
+        }
+      }
+
+      
+      show();
+    </script>
+  </div>
+
+</body>
+</html>
